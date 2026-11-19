@@ -40,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* ក្បាច់ស៊ុមជ្រុងខ្មែរទាំង ៤ ជ្រុង */
         .khmer-corner-layer {
             position: fixed;
             inset: 0;
@@ -55,30 +54,11 @@
             opacity: 0.92;
         }
 
-        .khmer-corner.top-left {
-            top: 4px;
-            left: 4px;
-        }
+        .khmer-corner.top-left { top: 4px; left: 4px; }
+        .khmer-corner.top-right { top: 4px; right: 4px; transform: scaleX(-1); }
+        .khmer-corner.bottom-left { bottom: 4px; left: 4px; transform: scaleY(-1); }
+        .khmer-corner.bottom-right { bottom: 4px; right: 4px; transform: scale(-1, -1); }
 
-        .khmer-corner.top-right {
-            top: 4px;
-            right: 4px;
-            transform: scaleX(-1);
-        }
-
-        .khmer-corner.bottom-left {
-            bottom: 4px;
-            left: 4px;
-            transform: scaleY(-1);
-        }
-
-        .khmer-corner.bottom-right {
-            bottom: 4px;
-            right: 4px;
-            transform: scale(-1, -1);
-        }
-
-        /* ស៊ុមក្បាច់ខ្មែរព័ទ្ធជុំវិញអក្សរ ដូចក្នុងរូបភាព */
         .khmer-text-banner-wrap {
             position: relative;
             display: flex;
@@ -117,14 +97,8 @@
             clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
         }
 
-        .khmer-text-banner-frame::before {
-            left: -14px;
-        }
-
-        .khmer-text-banner-frame::after {
-            right: -14px;
-            transform: translateY(-50%) scaleX(-1);
-        }
+        .khmer-text-banner-frame::before { left: -14px; }
+        .khmer-text-banner-frame::after { right: -14px; transform: translateY(-50%) scaleX(-1); }
 
         .khmer-banner-title {
             font-size: 18px;
@@ -147,7 +121,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(234, 179, 8, 0.12);
         }
 
-        /* ផ្ទាំងស្វាគមន៍ */
         #onboarding-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -176,7 +149,6 @@
             z-index: 1001;
         }
 
-        /* ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម */
         #ad-modal {
             display: none;
             position: fixed;
@@ -313,7 +285,7 @@
             color: var(--text-sub);
             font-weight: 600;
         }
-        .input-group select, .input-group input {
+        .input-group select, .input-group input, .input-group textarea {
             font-family: 'Khmer Bokor', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
             padding: 10px 12px;
@@ -323,6 +295,27 @@
             color: var(--text-main);
             box-sizing: border-box;
             font-size: 14px;
+        }
+
+        .ad-status-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .status-available {
+            background: #dcfce7;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .status-empty {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
         }
 
         .log-list {
@@ -384,11 +377,11 @@
                 </div>
             </div>
             <p style="font-size: 14px; line-height: 1.6; color: #e2e8f0;">
-                កម្មវិធីឌីជីថលដែលផ្តល់ជូនលោកអ្នកនូវចំណូល ៥០% នៃការមើលពាណិជ្ជកម្ម។ ដកប្រាក់បានយ៉ាងឆាប់រហ័ស គ្រប់ធនាគារក្នុងស្រុក ឬកាតទូរស័ព្ទ។
+                កម្មវិធីឌីជីថលដែលផ្តល់ជូនលោកអ្នកនូវចំណូល ៥០% នៃការមើលពាណិជ្ជកម្មពិតប្រាកដ។ ដកប្រាក់បានយ៉ាងឆាប់រហ័ស គ្រប់ធនាគារក្នុងស្រុក ឬកាតទូរស័ព្ទ។
             </p>
             <ul style="text-align: left; font-size: 13px; margin: 15px 0; color: #fef08a; padding-left: 20px; line-height: 1.7;">
                 <li>តភ្ជាប់ជាមួយ Telegram ស្វ័យប្រវត្តិ</li>
-                <li>ប្រព័ន្ធគណនាលុយស្វ័យប្រវត្តិ ១០០%</li>
+                <li>ប្រព័ន្ធពិនិត្យ Ads ពិត និង Update រាល់ ១ នាទី</li>
                 <li>ដកប្រាក់អប្បបរមាត្រឹម ១.០០ ដុល្លារ</li>
             </ul>
             <button class="aba-btn success-btn" onclick="closeOnboarding()">យល់ព្រម និងចាប់ផ្តើម</button>
@@ -400,14 +393,14 @@
         <div class="ad-modal-card">
             <div class="khmer-text-banner-wrap" style="margin-top: 0; margin-bottom: 10px;">
                 <div class="khmer-text-banner-frame" style="padding: 7px 18px;">
-                    <div class="khmer-banner-title" style="font-size: 15px;">ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម</div>
+                    <div class="khmer-banner-title" style="font-size: 15px;">ពាណិជ្ជកម្មកំពុងបង្ហាញ</div>
                 </div>
             </div>
 
             <div class="ad-banner-box">
-                <div id="ad-headline" style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">ពាណិជ្ជកម្មពិសេស Khmer Rewards</div>
+                <div id="ad-headline" style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">ពាណិជ្ជកម្មដែលមានក្នុងប្រព័ន្ធ</div>
                 <div id="ad-subtext" style="font-size: 12px; color: #fef9c3; line-height: 1.5;">
-                    មើលពាណិជ្ជកម្មឱ្យចប់ពេលកំណត់ ដើម្បីទទួលបានកម្រៃ ៥០% និងបញ្ជូនចំណែកទៅ Admin ភ្លាមៗ។
+                    មើលពាណិជ្ជកម្មឱ្យចប់ពេលកំណត់ ដើម្បីទទួលបានកម្រៃ ៥០% និង Update ទៅ Admin ភ្លាមៗ។
                 </div>
             </div>
 
@@ -416,9 +409,9 @@
             </div>
 
             <div id="ad-link-box" class="ad-link-preview" style="display: none;">
-                <div><strong>តំណភ្ជាប់ពាណិជ្ជកម្ម (Link Ads):</strong></div>
+                <div><strong>តំណភ្ជាប់ពាណិជ្ជកម្ម (<span id="ad-queue-info"></span>):</strong></div>
                 <div id="ad-link-url"></div>
-                <button type="button" class="aba-btn" style="padding: 8px 12px; font-size: 13px; margin-top: 8px;" onclick="openCustomAdLink()">
+                <button type="button" class="aba-btn" style="padding: 8px 12px; font-size: 13px; margin-top: 8px;" onclick="openActiveAdLink()">
                     បើកមើល Link ពាណិជ្ជកម្ម
                 </button>
             </div>
@@ -459,11 +452,16 @@
         <!-- Watch Ads Section -->
         <div class="aba-card">
             <div class="aba-header">
-                <span class="aba-title">មើលពាណិជ្ជកម្មយករង្វាន់</span>
+                <span class="aba-title">ប្រព័ន្ធពាណិជ្ជកម្ម (Update រាល់ ១ នាទី)</span>
             </div>
-            <p style="font-size: 13px; color: var(--text-sub); margin-top: 0;">មើលពាណិជ្ជកម្ម ១ ដង ទទួលបាន $0.01 ចូលកាបូបលុយភ្លាមៗ</p>
-            <button class="aba-btn" id="watch-ad-btn" onclick="watchAd()">មើលពាណិជ្ជកម្មឥឡូវនេះ</button>
-            <div id="cooldown-timer" style="font-size: 12px; color: #d97706; text-align: center; margin-top: 6px; font-weight: 600;"></div>
+            <div style="text-align: center;">
+                <span id="ad-availability-badge" class="ad-status-pill status-empty">កំពុងពិនិត្យស្ថានភាពពាណិជ្ជកម្ម...</span>
+            </div>
+            <p id="ad-pool-summary" style="font-size: 13px; color: var(--text-sub); margin-top: 4px; text-align: center;">
+                ចំនួន Ads មានស្រាប់: 0 | Update ចុងក្រោយ: កំពុងផ្ទុក
+            </p>
+            <button class="aba-btn" id="watch-ad-btn" onclick="watchAd()">ពិនិត្យ និងមើលពាណិជ្ជកម្ម</button>
+            <div id="ad-check-feedback" style="font-size: 13px; font-weight: bold; text-align: center; margin-top: 8px; color: var(--aba-blue);"></div>
         </div>
 
         <!-- Withdraw Section -->
@@ -491,7 +489,7 @@
             <div class="aba-header">
                 <span class="aba-title" style="color: #dc2626;">ផ្ទាំងគ្រប់គ្រង Admin</span>
             </div>
-            <p style="font-size: 12px; color: #1e293b;">ការគ្រប់គ្រងចំណូលប្រព័ន្ធ និង Link Ads សម្រាប់ @SameanMom168៖</p>
+            <p style="font-size: 12px; color: #1e293b;">គ្រប់គ្រងបញ្ជី Link Ads ជាច្រើន និងចំណូលប្រព័ន្ធសម្រាប់ @SameanMom168៖</p>
 
             <div style="background: #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center;">
                 <div style="font-size: 12px; color: var(--text-sub);">សមតុល្យចំណូលសរុបរបស់ Admin</div>
@@ -502,12 +500,12 @@
             </div>
 
             <div class="input-group">
-                <label>ដាក់ Link Ads ផ្ទាល់ខ្លួន (អាចកែប្រែបានគ្រប់ពេល - https://...)</label>
-                <input type="url" id="custom-ad-link" placeholder="ឧ. https://example.com/promo">
+                <label>ដាក់ Link Ads ជាច្រើន (១ Link ក្នុង ១ បន្ទាត់ - Update រាល់ ១ នាទី)</label>
+                <textarea id="custom-ad-links" rows="4" placeholder="https://example.com/ad-1&#10;https://example.com/ad-2&#10;https://example.com/ad-3"></textarea>
             </div>
 
             <div class="input-group">
-                <label>Cloudflare Worker API URL (ស្រេចចិត្ត - សម្រាប់ Sync ឆ្លងឧបករណ៍)</label>
+                <label>Cloudflare Worker API URL (ស្រេចចិត្ត - សម្រាប់ទាញ/ផ្ញើ Ads និងចំណូលរាល់នាទី)</label>
                 <input type="url" id="worker-api-url" placeholder="ឧ. https://your-worker.workers.dev">
             </div>
 
@@ -542,6 +540,7 @@
         const SPLIT_RATIO = 0.5;
         const COOLDOWN_SEC = 3;
         const AD_WATCH_DURATION_SEC = 5;
+        const AUTO_UPDATE_INTERVAL_MS = 60000; // Update រាល់ ១ នាទី (60 វិនាទី)
 
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -568,35 +567,30 @@
             totalSystemViews: 0,
             adminBank: "000 000 000 (Admin Default)",
             adsgramBlockId: "",
-            customAdLink: "",
-            workerApiUrl: ""
+            customAdLinks: [],
+            workerApiUrl: "",
+            lastAdsUpdate: ""
         };
+
+        // ប្រសិនបើមានទិន្នន័យចាស់ជា customAdLink ទោល សូមបំប្លែងជា Array ដោយស្វ័យប្រវត្តិ
+        if (!Array.isArray(globalAdminState.customAdLinks)) {
+            globalAdminState.customAdLinks = globalAdminState.customAdLink ? [globalAdminState.customAdLink] : [];
+        }
 
         let state = JSON.parse(localStorage.getItem(`user_state_${userId}`)) || {
             balance: 0.000,
             views: 0,
-            lastWatchTime: 0
+            lastWatchTime: 0,
+            adCursor: 0
         };
 
         document.getElementById("admin-bank-account").value = globalAdminState.adminBank || "";
         document.getElementById("adsgram-block-id").value = globalAdminState.adsgramBlockId || "";
-        document.getElementById("custom-ad-link").value = globalAdminState.customAdLink || "";
+        document.getElementById("custom-ad-links").value = (globalAdminState.customAdLinks || []).join("\n");
         document.getElementById("worker-api-url").value = globalAdminState.workerApiUrl || "";
 
         let adCountdownInterval = null;
-
-        function persistStates() {
-            localStorage.setItem(`user_state_${userId}`, JSON.stringify(state));
-            localStorage.setItem("system_admin_state", JSON.stringify(globalAdminState));
-        }
-
-        function updateUI() {
-            document.getElementById("user-balance").innerText = `$${state.balance.toFixed(3)}`;
-            document.getElementById("view-count").innerText = state.views;
-            document.getElementById("admin-total-balance").innerText = `$${globalAdminState.adminBalance.toFixed(3)}`;
-            document.getElementById("admin-total-views").innerText = globalAdminState.totalSystemViews;
-            persistStates();
-        }
+        let activeAdUrl = "";
 
         function isValidHttpUrl(str) {
             try {
@@ -607,33 +601,97 @@
             }
         }
 
-        async function fetchCloudStateIfConfigured() {
+        function parseAdLinks(rawTextOrArray) {
+            const items = Array.isArray(rawTextOrArray)
+                ? rawTextOrArray
+                : String(rawTextOrArray || "").split(/\r?\n/);
+
+            const unique = [];
+            for (const item of items) {
+                const trimmed = String(item || "").trim();
+                if (trimmed && isValidHttpUrl(trimmed) && !unique.includes(trimmed)) {
+                    unique.push(trimmed);
+                }
+            }
+            return unique;
+        }
+
+        function hasAvailableAds() {
+            const validLinks = parseAdLinks(globalAdminState.customAdLinks);
+            const hasAdsgram = Boolean((globalAdminState.adsgramBlockId || "").trim());
+            return validLinks.length > 0 || hasAdsgram;
+        }
+
+        function persistStates() {
+            localStorage.setItem(`user_state_${userId}`, JSON.stringify(state));
+            localStorage.setItem("system_admin_state", JSON.stringify(globalAdminState));
+        }
+
+        function updateAdAvailabilityUI() {
+            const validLinks = parseAdLinks(globalAdminState.customAdLinks);
+            const hasAdsgram = Boolean((globalAdminState.adsgramBlockId || "").trim());
+            const totalAdsCount = validLinks.length + (hasAdsgram ? 1 : 0);
+            const badge = document.getElementById("ad-availability-badge");
+            const summary = document.getElementById("ad-pool-summary");
+            const updatedLabel = globalAdminState.lastAdsUpdate || new Date().toLocaleTimeString();
+
+            if (totalAdsCount > 0) {
+                badge.className = "ad-status-pill status-available";
+                badge.innerText = `មានពាណិជ្ជកម្ម (${totalAdsCount} ប្រភព/Link)`;
+            } else {
+                badge.className = "ad-status-pill status-empty";
+                badge.innerText = "មិនមានពាណិជ្ជកម្មនៅពេលនេះ";
+            }
+
+            summary.innerText = `ចំនួន Ads មានស្រាប់: ${totalAdsCount} | Update ចុងក្រោយ: ${updatedLabel}`;
+        }
+
+        function updateUI() {
+            document.getElementById("user-balance").innerText = `$${state.balance.toFixed(3)}`;
+            document.getElementById("view-count").innerText = state.views;
+            document.getElementById("admin-total-balance").innerText = `$${globalAdminState.adminBalance.toFixed(3)}`;
+            document.getElementById("admin-total-views").innerText = globalAdminState.totalSystemViews;
+            updateAdAvailabilityUI();
+            persistStates();
+        }
+
+        // ទាញ និង Update បញ្ជី Ads រាល់ ១ នាទី (ពី Worker API ប្រសិនបើបានកំណត់ និង Update ពេលវេលា)
+        async function refreshAdsEveryMinute(isAutoTick = false) {
             const apiUrl = (globalAdminState.workerApiUrl || "").trim();
-            if (!apiUrl || !isValidHttpUrl(apiUrl)) return;
-            try {
-                const res = await fetch(`${apiUrl.replace(/\/+$/, "")}/state?userId=${encodeURIComponent(userId)}`);
-                if (!res.ok) return;
-                const data = await res.json();
-                if (typeof data.adminBalance === "number") {
-                    globalAdminState.adminBalance = data.adminBalance;
-                }
-                if (typeof data.totalSystemViews === "number") {
-                    globalAdminState.totalSystemViews = data.totalSystemViews;
-                }
-                if (typeof data.customAdLink === "string") {
-                    globalAdminState.customAdLink = data.customAdLink;
-                    if (isAdmin) {
-                        document.getElementById("custom-ad-link").value = data.customAdLink;
+            if (apiUrl && isValidHttpUrl(apiUrl)) {
+                try {
+                    const res = await fetch(`${apiUrl.replace(/\/+$/, "")}/state?userId=${encodeURIComponent(userId)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (typeof data.adminBalance === "number") {
+                            globalAdminState.adminBalance = data.adminBalance;
+                        }
+                        if (typeof data.totalSystemViews === "number") {
+                            globalAdminState.totalSystemViews = data.totalSystemViews;
+                        }
+                        if (Array.isArray(data.customAdLinks)) {
+                            globalAdminState.customAdLinks = parseAdLinks(data.customAdLinks);
+                            if (isAdmin && document.activeElement !== document.getElementById("custom-ad-links")) {
+                                document.getElementById("custom-ad-links").value = globalAdminState.customAdLinks.join("\n");
+                            }
+                        } else if (typeof data.customAdLink === "string") {
+                            globalAdminState.customAdLinks = parseAdLinks(data.customAdLink);
+                        }
+                        if (typeof data.userBalance === "number") {
+                            state.balance = data.userBalance;
+                        }
+                        if (typeof data.userViews === "number") {
+                            state.views = data.userViews;
+                        }
                     }
-                }
-                if (typeof data.userBalance === "number") {
-                    state.balance = data.userBalance;
-                }
-                if (typeof data.userViews === "number") {
-                    state.views = data.userViews;
-                }
-                updateUI();
-            } catch (_) {}
+                } catch (_) {}
+            }
+
+            globalAdminState.lastAdsUpdate = new Date().toLocaleTimeString();
+            updateUI();
+            if (isAutoTick) {
+                addLog(`Update បញ្ជី Ads រាល់ ១ នាទីរួចរាល់ (មាន Ads: ${hasAvailableAds() ? "មាន" : "មិនមាន"})។`);
+            }
         }
 
         async function syncRevenueToAdmin(userShare, adminShare) {
@@ -690,44 +748,47 @@
             }
         }
 
-        function openCustomAdLink() {
-            const link = (globalAdminState.customAdLink || "").trim();
-            if (!isValidHttpUrl(link)) return;
+        function openActiveAdLink() {
+            if (!activeAdUrl || !isValidHttpUrl(activeAdUrl)) return;
             if (tg && typeof tg.openLink === "function") {
-                tg.openLink(link);
+                tg.openLink(activeAdUrl);
             } else {
-                window.open(link, "_blank", "noopener,noreferrer");
+                window.open(activeAdUrl, "_blank", "noopener,noreferrer");
             }
         }
 
-        function openAdModal() {
+        function pickNextAdLink() {
+            const links = parseAdLinks(globalAdminState.customAdLinks);
+            if (links.length === 0) return { url: "", index: -1, total: 0 };
+            const idx = state.adCursor % links.length;
+            state.adCursor = (state.adCursor + 1) % links.length;
+            persistStates();
+            return { url: links[idx], index: idx, total: links.length };
+        }
+
+        function openLinkAdModal(adSelection) {
+            activeAdUrl = adSelection.url;
             let remaining = AD_WATCH_DURATION_SEC;
             const modal = document.getElementById("ad-modal");
             const countdownEl = document.getElementById("ad-countdown-text");
             const claimBtn = document.getElementById("claim-ad-btn");
             const linkBox = document.getElementById("ad-link-box");
             const linkUrlEl = document.getElementById("ad-link-url");
+            const queueInfoEl = document.getElementById("ad-queue-info");
             const frameWrap = document.getElementById("ad-frame-wrap");
             const iframeEl = document.getElementById("ad-iframe");
             const headlineEl = document.getElementById("ad-headline");
             const subtextEl = document.getElementById("ad-subtext");
 
-            const customLink = (globalAdminState.customAdLink || "").trim();
-            if (isValidHttpUrl(customLink)) {
-                headlineEl.innerText = "ពាណិជ្ជកម្មពី Admin (Link Ad)";
-                subtextEl.innerText = "ចុចបើកមើល Link ពាណិជ្ជកម្មខាងក្រោម ហើយរង់ចាំរាប់ថយក្រោយចប់ ដើម្បីទទួលរង្វាន់។";
-                linkBox.style.display = "block";
-                linkUrlEl.innerText = customLink;
-                frameWrap.style.display = "block";
-                iframeEl.src = customLink;
-            } else {
-                headlineEl.innerText = "ពាណិជ្ជកម្មពិសេស Khmer Rewards";
-                subtextEl.innerText = "រង់ចាំការរាប់ថយក្រោយបញ្ចប់ ដើម្បីទទួលបានកម្រៃ ៥០% និងបញ្ជូនចំណែកទៅ Admin ភ្លាមៗ។";
-                linkBox.style.display = "none";
-                linkUrlEl.innerText = "";
-                frameWrap.style.display = "none";
-                iframeEl.src = "";
-            }
+            headlineEl.innerText = "មានពាណិជ្ជកម្ម - កំពុងបង្ហាញ";
+            subtextEl.innerText = "មើលពាណិជ្ជកម្មឱ្យចប់ពេលកំណត់ ដើម្បីទទួលបានកម្រៃ ៥០% និង Update ទៅ Admin ភ្លាមៗ។";
+
+            linkBox.style.display = "block";
+            queueInfoEl.innerText = `Ad ទី ${adSelection.index + 1} / ${adSelection.total}`;
+            linkUrlEl.innerText = activeAdUrl;
+
+            frameWrap.style.display = "block";
+            iframeEl.src = activeAdUrl;
 
             claimBtn.disabled = true;
             claimBtn.innerText = `រង់ចាំ ${remaining} វិនាទី...`;
@@ -751,15 +812,17 @@
 
         function cancelAd() {
             clearInterval(adCountdownInterval);
+            activeAdUrl = "";
             document.getElementById("ad-iframe").src = "";
             document.getElementById("ad-modal").style.display = "none";
             document.getElementById("watch-ad-btn").disabled = false;
-            document.getElementById("watch-ad-btn").innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
+            document.getElementById("watch-ad-btn").innerText = "ពិនិត្យ និងមើលពាណិជ្ជកម្ម";
             addLog("បានបិទពាណិជ្ជកម្មមុនពេលបញ្ចប់ (មិនទទួលបានទឹកប្រាក់)។");
         }
 
         async function completeAdReward() {
             clearInterval(adCountdownInterval);
+            activeAdUrl = "";
             document.getElementById("ad-iframe").src = "";
             document.getElementById("ad-modal").style.display = "none";
 
@@ -773,11 +836,13 @@
             await syncRevenueToAdmin(userShare, adminShare);
             updateUI();
 
+            document.getElementById("ad-check-feedback").style.color = "var(--success)";
+            document.getElementById("ad-check-feedback").innerText = `មានពាណិជ្ជកម្ម! បានបញ្ចូល +$${userShare.toFixed(3)} និង Update ទៅ Admin រួចរាល់។`;
             addLog(`បានមើលពាណិជ្ជកម្មជោគជ័យ (+$${userShare.toFixed(3)}) និង Update ទៅ Admin រួចរាល់។`);
 
             const btn = document.getElementById("watch-ad-btn");
             btn.disabled = false;
-            btn.innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
+            btn.innerText = "ពិនិត្យ និងមើលពាណិជ្ជកម្ម";
         }
 
         async function watchAd() {
@@ -785,25 +850,47 @@
             const elapsed = (now - state.lastWatchTime) / 1000;
 
             if (state.lastWatchTime > 0 && elapsed < COOLDOWN_SEC) {
-                alert(`សូមរង់ចាំ ${Math.ceil(COOLDOWN_SEC - elapsed)} វិនាទីទៀត មុនមើលពាណិជ្ជកម្មបន្ទាប់។`);
+                const waitSec = Math.ceil(COOLDOWN_SEC - elapsed);
+                document.getElementById("ad-check-feedback").style.color = "#d97706";
+                document.getElementById("ad-check-feedback").innerText = `សូមរង់ចាំ ${waitSec} វិនាទីទៀត មុនមើលពាណិជ្ជកម្មបន្ទាប់។`;
                 return;
             }
 
             const btn = document.getElementById("watch-ad-btn");
+            const feedback = document.getElementById("ad-check-feedback");
             btn.disabled = true;
-            btn.innerText = "កំពុងបើកពាណិជ្ជកម្ម...";
+            btn.innerText = "កំពុងពិនិត្យពាណិជ្ជកម្ម...";
+            feedback.style.color = "var(--aba-blue)";
+            feedback.innerText = "កំពុងពិនិត្យថា មាន ឬមិនមានពាណិជ្ជកម្ម...";
+
+            await refreshAdsEveryMinute(false);
 
             const blockId = (globalAdminState.adsgramBlockId || "").trim();
             if (blockId && window.Adsgram) {
                 try {
                     const AdController = window.Adsgram.init({ blockId });
                     await AdController.show();
+                    feedback.style.color = "var(--success)";
+                    feedback.innerText = "មានពាណិជ្ជកម្មពី AdsGram! កំពុងគណនារង្វាន់...";
                     await completeAdReward();
                     return;
                 } catch (_) {}
             }
 
-            openAdModal();
+            const nextAd = pickNextAdLink();
+            if (nextAd.url) {
+                feedback.style.color = "var(--success)";
+                feedback.innerText = `មានពាណិជ្ជកម្ម! កំពុងបើក Link Ad ទី ${nextAd.index + 1}/${nextAd.total}។`;
+                openLinkAdModal(nextAd);
+                return;
+            }
+
+            // ប្រសិនបើមិនមានពាណិជ្ជកម្មពិតប្រាកដទេ ប្រាប់ថាមិនមាន និងមិនបន្ថែមទឹកប្រាក់ឡើយ
+            feedback.style.color = "var(--danger)";
+            feedback.innerText = "មិនមានពាណិជ្ជកម្មនៅពេលនេះទេ! សូមរង់ចាំការ Update រាល់ ១ នាទី ឬបន្ថែម Link Ads ក្នុងផ្ទាំង Admin។";
+            addLog("ពិនិត្យឃើញថា មិនមានពាណិជ្ជកម្មសម្រាប់បង្ហាញទេ។");
+            btn.disabled = false;
+            btn.innerText = "ពិនិត្យ និងមើលពាណិជ្ជកម្ម";
         }
 
         function requestWithdraw() {
@@ -837,7 +924,7 @@
 
             const bankVal = document.getElementById("admin-bank-account").value.trim();
             const blockVal = document.getElementById("adsgram-block-id").value.trim();
-            const customLinkVal = document.getElementById("custom-ad-link").value.trim();
+            const rawLinksText = document.getElementById("custom-ad-links").value;
             const workerUrlVal = document.getElementById("worker-api-url").value.trim();
 
             if (!bankVal) {
@@ -845,8 +932,9 @@
                 return;
             }
 
-            if (customLinkVal && !isValidHttpUrl(customLinkVal)) {
-                alert("Link Ads ត្រូវចាប់ផ្តើមដោយ https:// ឬ http://");
+            const validLinks = parseAdLinks(rawLinksText);
+            if (rawLinksText.trim() && validLinks.length === 0) {
+                alert("Link Ads នីមួយៗត្រូវចាប់ផ្តើមដោយ https:// ឬ http://");
                 return;
             }
 
@@ -857,9 +945,11 @@
 
             globalAdminState.adminBank = bankVal;
             globalAdminState.adsgramBlockId = blockVal;
-            globalAdminState.customAdLink = customLinkVal;
+            globalAdminState.customAdLinks = validLinks;
             globalAdminState.workerApiUrl = workerUrlVal;
-            persistStates();
+            globalAdminState.lastAdsUpdate = new Date().toLocaleTimeString();
+            document.getElementById("custom-ad-links").value = validLinks.join("\n");
+            updateUI();
 
             if (workerUrlVal) {
                 try {
@@ -868,18 +958,19 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             adminUsername: ADMIN_USERNAME,
-                            customAdLink: customLinkVal,
+                            customAdLinks: validLinks,
+                            customAdLink: validLinks[0] || "",
                             adminBank: bankVal
                         })
                     });
                 } catch (_) {}
             }
 
-            document.getElementById("admin-status-text").innerText = "បានរក្សាទុកការកំណត់ Admin និង Link Ads ដោយជោគជ័យ!";
+            document.getElementById("admin-status-text").innerText = `បានរក្សាទុក ${validLinks.length} Link Ads និងការកំណត់ Admin ដោយជោគជ័យ!`;
             setTimeout(() => {
                 document.getElementById("admin-status-text").innerText = "";
             }, 3000);
-            addLog("Admin បានរក្សាទុក Link Ads និងការកំណត់ប្រព័ន្ធ។");
+            addLog(`Admin បានរក្សាទុក Link Ads ចំនួន ${validLinks.length} តំណភ្ជាប់។`);
         }
 
         function addLog(text) {
@@ -891,15 +982,21 @@
         window.addEventListener("storage", (event) => {
             if (event.key === "system_admin_state" && event.newValue) {
                 globalAdminState = JSON.parse(event.newValue);
-                if (isAdmin) {
-                    document.getElementById("custom-ad-link").value = globalAdminState.customAdLink || "";
+                if (!Array.isArray(globalAdminState.customAdLinks)) {
+                    globalAdminState.customAdLinks = globalAdminState.customAdLink ? [globalAdminState.customAdLink] : [];
+                }
+                if (isAdmin && document.activeElement !== document.getElementById("custom-ad-links")) {
+                    document.getElementById("custom-ad-links").value = globalAdminState.customAdLinks.join("\n");
                 }
                 updateUI();
             }
         });
 
         updateUI();
-        fetchCloudStateIfConfigured();
+        refreshAdsEveryMinute(false);
+        setInterval(() => {
+            refreshAdsEveryMinute(true);
+        }, AUTO_UPDATE_INTERVAL_MS);
     </script>
 </body>
 </html>
