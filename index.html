@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khmer Rewards</title>
+    <!-- Google Fonts: Khmer Bokor -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khmer+Bokor&display=swap" rel="stylesheet">
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- AdsGram SDK -->
@@ -18,21 +22,129 @@
             --success: #059669;
             --danger: #dc2626;
             --bg-body: #071629;
+            --khmer-gold: #eab308;
+            --khmer-gold-bright: #facc15;
+            --khmer-maroon: #6e0d14;
+            --khmer-maroon-dark: #45060b;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Khmer Bokor', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             margin: 0;
-            padding: 12px;
+            padding: 14px;
             display: flex;
             justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ក្បាច់ស៊ុមជ្រុងខ្មែរទាំង ៤ ជ្រុង */
+        .khmer-corner-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .khmer-corner {
+            position: absolute;
+            width: 82px;
+            height: 82px;
+            opacity: 0.92;
+        }
+
+        .khmer-corner.top-left {
+            top: 4px;
+            left: 4px;
+        }
+
+        .khmer-corner.top-right {
+            top: 4px;
+            right: 4px;
+            transform: scaleX(-1);
+        }
+
+        .khmer-corner.bottom-left {
+            bottom: 4px;
+            left: 4px;
+            transform: scaleY(-1);
+        }
+
+        .khmer-corner.bottom-right {
+            bottom: 4px;
+            right: 4px;
+            transform: scale(-1, -1);
+        }
+
+        /* ស៊ុមក្បាច់ខ្មែរព័ទ្ធជុំវិញអក្សរ ដូចក្នុងរូបភាព */
+        .khmer-text-banner-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto 16px auto;
+            padding: 10px 24px;
+            max-width: 100%;
+            min-height: 54px;
+        }
+
+        .khmer-text-banner-frame {
+            position: relative;
+            background: linear-gradient(180deg, var(--khmer-maroon) 0%, var(--khmer-maroon-dark) 100%);
+            color: var(--khmer-gold-bright);
+            border: 3px solid var(--khmer-gold);
+            border-radius: 14px;
+            padding: 10px 22px;
+            box-shadow:
+                0 0 0 2px #b45309,
+                0 6px 18px rgba(0, 0, 0, 0.45),
+                inset 0 0 12px rgba(250, 204, 21, 0.25);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .khmer-text-banner-frame::before,
+        .khmer-text-banner-frame::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--khmer-gold-bright), #d97706);
+            clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+        }
+
+        .khmer-text-banner-frame::before {
+            left: -14px;
+        }
+
+        .khmer-text-banner-frame::after {
+            right: -14px;
+            transform: translateY(-50%) scaleX(-1);
+        }
+
+        .khmer-banner-title {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            color: var(--khmer-gold-bright);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+            line-height: 1.4;
         }
 
         .container {
             width: 100%;
             max-width: 420px;
+            position: relative;
+            z-index: 10;
+            border: 2px solid rgba(234, 179, 8, 0.55);
+            border-radius: 20px;
+            padding: 14px;
+            background: rgba(7, 22, 41, 0.78);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(234, 179, 8, 0.12);
         }
 
         /* ផ្ទាំងស្វាគមន៍ */
@@ -52,13 +164,16 @@
         }
 
         .onboarding-card {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 18px;
+            padding: 22px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.12);
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            border: 2px solid rgba(234, 179, 8, 0.65);
+            position: relative;
+            z-index: 1001;
         }
 
         /* ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម */
@@ -67,7 +182,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(4, 12, 22, 0.94);
-            z-index: 1000;
+            z-index: 1050;
             justify-content: center;
             align-items: center;
             padding: 16px;
@@ -83,11 +198,13 @@
             max-width: 390px;
             text-align: center;
             box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+            border: 2px solid var(--khmer-gold);
         }
 
         .ad-banner-box {
-            background: linear-gradient(135deg, #003b73, #001b36);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--khmer-maroon), var(--khmer-maroon-dark));
+            color: var(--khmer-gold-bright);
+            border: 2px solid var(--khmer-gold);
             border-radius: 12px;
             padding: 16px 14px;
             margin: 12px 0;
@@ -127,8 +244,8 @@
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+            border: 1.5px solid rgba(234, 179, 8, 0.5);
         }
 
         .aba-header {
@@ -136,7 +253,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
             padding-bottom: 8px;
         }
 
@@ -154,15 +271,18 @@
             text-align: center;
             margin-bottom: 14px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            border: 2px solid var(--khmer-gold);
         }
 
         .balance-amount {
             font-size: 32px;
             font-weight: bold;
             margin: 6px 0;
+            color: var(--khmer-gold-bright);
         }
 
         .aba-btn {
+            font-family: 'Khmer Bokor', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--aba-blue);
             color: white;
             border: none;
@@ -194,6 +314,7 @@
             font-weight: 600;
         }
         .input-group select, .input-group input {
+            font-family: 'Khmer Bokor', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
             padding: 10px 12px;
             border-radius: 10px;
@@ -216,21 +337,56 @@
 
         #admin-panel {
             display: none;
-            border: 2px dashed var(--aba-blue);
-            background: #f0f7ff;
+            border: 2px dashed var(--khmer-maroon);
+            background: #fff8eb;
         }
     </style>
 </head>
 <body>
 
+    <!-- ក្បាច់ស៊ុមជ្រុងខ្មែរទាំង ៤ ជ្រុង -->
+    <div class="khmer-corner-layer" aria-hidden="true">
+        <svg class="khmer-corner top-left" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8H96C84 14 76 22 72 34C64 24 52 20 40 24C44 36 40 48 30 56C18 60 12 72 8 88V8Z" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
+            <path d="M16 16C34 16 48 26 54 44C42 40 32 44 26 54C22 42 16 32 16 16Z" fill="#facc15"/>
+            <path d="M12 12L36 36M22 12L44 24M12 22L24 44" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="4" fill="#b45309"/>
+        </svg>
+
+        <svg class="khmer-corner top-right" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8H96C84 14 76 22 72 34C64 24 52 20 40 24C44 36 40 48 30 56C18 60 12 72 8 88V8Z" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
+            <path d="M16 16C34 16 48 26 54 44C42 40 32 44 26 54C22 42 16 32 16 16Z" fill="#facc15"/>
+            <path d="M12 12L36 36M22 12L44 24M12 22L24 44" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="4" fill="#b45309"/>
+        </svg>
+
+        <svg class="khmer-corner bottom-left" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8H96C84 14 76 22 72 34C64 24 52 20 40 24C44 36 40 48 30 56C18 60 12 72 8 88V8Z" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
+            <path d="M16 16C34 16 48 26 54 44C42 40 32 44 26 54C22 42 16 32 16 16Z" fill="#facc15"/>
+            <path d="M12 12L36 36M22 12L44 24M12 22L24 44" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="4" fill="#b45309"/>
+        </svg>
+
+        <svg class="khmer-corner bottom-right" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8H96C84 14 76 22 72 34C64 24 52 20 40 24C44 36 40 48 30 56C18 60 12 72 8 88V8Z" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
+            <path d="M16 16C34 16 48 26 54 44C42 40 32 44 26 54C22 42 16 32 16 16Z" fill="#facc15"/>
+            <path d="M12 12L36 36M22 12L44 24M12 22L24 44" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="18" cy="18" r="4" fill="#b45309"/>
+        </svg>
+    </div>
+
     <!-- ផ្ទាំងស្វាគមន៍ -->
     <div id="onboarding-screen">
         <div class="onboarding-card">
-            <h2>សួស្តីស្វាគមន៍មកកាន់ Khmer Rewards</h2>
-            <p style="font-size: 14px; line-height: 1.5; color: #cbd5e1;">
+            <div class="khmer-text-banner-wrap">
+                <div class="khmer-text-banner-frame">
+                    <div class="khmer-banner-title">សួស្តីស្វាគមន៍មកកាន់ Khmer Rewards</div>
+                </div>
+            </div>
+            <p style="font-size: 14px; line-height: 1.6; color: #e2e8f0;">
                 កម្មវិធីឌីជីថលដែលផ្តល់ជូនលោកអ្នកនូវចំណូល ៥០% នៃការមើលពាណិជ្ជកម្ម។ ដកប្រាក់បានយ៉ាងឆាប់រហ័ស គ្រប់ធនាគារក្នុងស្រុក ឬកាតទូរស័ព្ទ។
             </p>
-            <ul style="text-align: left; font-size: 13px; margin: 15px 0; color: #f1f5f9; padding-left: 20px;">
+            <ul style="text-align: left; font-size: 13px; margin: 15px 0; color: #fef08a; padding-left: 20px; line-height: 1.7;">
                 <li>តភ្ជាប់ជាមួយ Telegram ស្វ័យប្រវត្តិ</li>
                 <li>ប្រព័ន្ធគណនាលុយស្វ័យប្រវត្តិ ១០០%</li>
                 <li>ដកប្រាក់អប្បបរមាត្រឹម ១.០០ ដុល្លារ</li>
@@ -242,11 +398,15 @@
     <!-- ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម -->
     <div id="ad-modal">
         <div class="ad-modal-card">
-            <div style="font-size: 12px; font-weight: bold; color: var(--aba-blue);">ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម</div>
+            <div class="khmer-text-banner-wrap" style="margin-top: 0; margin-bottom: 10px;">
+                <div class="khmer-text-banner-frame" style="padding: 7px 18px;">
+                    <div class="khmer-banner-title" style="font-size: 15px;">ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម</div>
+                </div>
+            </div>
 
             <div class="ad-banner-box">
                 <div id="ad-headline" style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">ពាណិជ្ជកម្មពិសេស Khmer Rewards</div>
-                <div id="ad-subtext" style="font-size: 12px; color: #e2e8f0; line-height: 1.4;">
+                <div id="ad-subtext" style="font-size: 12px; color: #fef9c3; line-height: 1.5;">
                     មើលពាណិជ្ជកម្មឱ្យចប់ពេលកំណត់ ដើម្បីទទួលបានកម្រៃ ៥០% និងបញ្ជូនចំណែកទៅ Admin ភ្លាមៗ។
                 </div>
             </div>
@@ -273,6 +433,13 @@
     </div>
 
     <div class="container">
+        <!-- ស៊ុមអក្សរក្បាច់ខ្មែរសម្រាប់ចំណងជើងកម្មវិធី -->
+        <div class="khmer-text-banner-wrap">
+            <div class="khmer-text-banner-frame">
+                <div class="khmer-banner-title">ស៊ុមអក្សរក្បាច់ខ្មែរ - Khmer Rewards</div>
+            </div>
+        </div>
+
         <!-- Header Profile -->
         <div class="aba-card" style="display: flex; align-items: center; justify-content: space-between;">
             <div>
@@ -284,9 +451,9 @@
 
         <!-- Balance Card -->
         <div class="balance-box">
-            <div style="font-size: 13px; opacity: 0.9;">សមតុល្យរបស់អ្នក (ចំណែក ៥០%)</div>
+            <div style="font-size: 13px; opacity: 0.95;">សមតុល្យរបស់អ្នក (ចំណែក ៥០%)</div>
             <div class="balance-amount" id="user-balance">$0.000</div>
-            <div style="font-size: 12px; opacity: 0.8;">សរុបមើលពាណិជ្ជកម្ម: <span id="view-count">0</span> ដង</div>
+            <div style="font-size: 12px; opacity: 0.9;">សរុបមើលពាណិជ្ជកម្ម: <span id="view-count">0</span> ដង</div>
         </div>
 
         <!-- Watch Ads Section -->
@@ -372,11 +539,10 @@
     <script>
         const ADMIN_USERNAME = "SameanMom168";
         const TOTAL_AD_VALUE = 0.02;
-        const SPLIT_RATIO = 0.5; // 50% User / 50% Admin
+        const SPLIT_RATIO = 0.5;
         const COOLDOWN_SEC = 3;
         const AD_WATCH_DURATION_SEC = 5;
 
-        // Telegram WebApp Initialization
         const tg = window.Telegram.WebApp;
         tg.expand();
 
