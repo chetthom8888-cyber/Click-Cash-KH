@@ -6,18 +6,18 @@
     <title>Khmer Rewards</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- AdsGram SDK for Telegram Mini Apps -->
+    <!-- AdsGram SDK -->
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
         :root {
             --aba-blue: #0055a5;
-            --aba-dark: #071526;
+            --aba-dark: #061322;
             --aba-card: #ffffff;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --success: #059669;
             --danger: #dc2626;
-            --bg-body: #091b30;
+            --bg-body: #071629;
         }
 
         body {
@@ -35,11 +35,11 @@
             max-width: 420px;
         }
 
-        /* ផ្ទាំងស្វាគមន៍ (Onboarding Screen) */
+        /* ផ្ទាំងស្វាគមន៍ */
         #onboarding-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(160deg, #061220, #003366);
+            background: linear-gradient(135deg, #05101e, #002b55);
             color: white;
             z-index: 999;
             display: flex;
@@ -61,7 +61,67 @@
             border: 1px solid rgba(255,255,255,0.12);
         }
 
-        /* ABA Style Card */
+        /* ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម */
+        #ad-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(4, 12, 22, 0.94);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .ad-modal-card {
+            background: #ffffff;
+            color: var(--text-main);
+            border-radius: 16px;
+            padding: 18px;
+            width: 100%;
+            max-width: 390px;
+            text-align: center;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+        }
+
+        .ad-banner-box {
+            background: linear-gradient(135deg, #003b73, #001b36);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 16px 14px;
+            margin: 12px 0;
+        }
+
+        .ad-link-preview {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #0f172a;
+            word-break: break-all;
+            text-align: left;
+        }
+
+        .ad-frame-wrap {
+            display: none;
+            width: 100%;
+            height: 170px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 12px;
+            background: #0f172a;
+        }
+
+        .ad-frame-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .aba-card {
             background-color: var(--aba-card);
             border-radius: 16px;
@@ -86,9 +146,8 @@
             color: var(--aba-blue);
         }
 
-        /* Balance Display */
         .balance-box {
-            background: linear-gradient(135deg, #003d7a, #001c38);
+            background: linear-gradient(135deg, #003b73, #001b36);
             color: white;
             border-radius: 16px;
             padding: 20px;
@@ -103,7 +162,6 @@
             margin: 6px 0;
         }
 
-        /* Buttons */
         .aba-btn {
             background-color: var(--aba-blue);
             color: white;
@@ -116,7 +174,7 @@
             cursor: pointer;
             margin-top: 8px;
             transition: opacity 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .aba-btn:active { opacity: 0.85; }
@@ -125,7 +183,6 @@
         .success-btn { background-color: var(--success); }
         .danger-btn { background-color: var(--danger); }
 
-        /* Input Controls */
         .input-group {
             margin-bottom: 12px;
         }
@@ -147,25 +204,16 @@
             font-size: 14px;
         }
 
-        /* Log Box */
         .log-list {
             font-size: 12px;
             color: var(--text-sub);
-            max-height: 110px;
+            max-height: 100px;
             overflow-y: auto;
             background: #f8fafc;
             padding: 8px;
             border-radius: 8px;
         }
 
-        .status-msg {
-            font-size: 12px;
-            text-align: center;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
-        /* Admin Panel Hidden by Default */
         #admin-panel {
             display: none;
             border: 2px dashed var(--aba-blue);
@@ -175,7 +223,7 @@
 </head>
 <body>
 
-    <!-- ផ្ទាំងស្វាគមន៍ (Onboarding Screen) -->
+    <!-- ផ្ទាំងស្វាគមន៍ -->
     <div id="onboarding-screen">
         <div class="onboarding-card">
             <h2>សួស្តីស្វាគមន៍មកកាន់ Khmer Rewards</h2>
@@ -188,6 +236,39 @@
                 <li>ដកប្រាក់អប្បបរមាត្រឹម ១.០០ ដុល្លារ</li>
             </ul>
             <button class="aba-btn success-btn" onclick="closeOnboarding()">យល់ព្រម និងចាប់ផ្តើម</button>
+        </div>
+    </div>
+
+    <!-- ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម -->
+    <div id="ad-modal">
+        <div class="ad-modal-card">
+            <div style="font-size: 12px; font-weight: bold; color: var(--aba-blue);">ផ្ទាំងបង្ហាញពាណិជ្ជកម្ម</div>
+
+            <div class="ad-banner-box">
+                <div id="ad-headline" style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">ពាណិជ្ជកម្មពិសេស Khmer Rewards</div>
+                <div id="ad-subtext" style="font-size: 12px; color: #e2e8f0; line-height: 1.4;">
+                    មើលពាណិជ្ជកម្មឱ្យចប់ពេលកំណត់ ដើម្បីទទួលបានកម្រៃ ៥០% និងបញ្ជូនចំណែកទៅ Admin ភ្លាមៗ។
+                </div>
+            </div>
+
+            <div id="ad-frame-wrap" class="ad-frame-wrap">
+                <iframe id="ad-iframe" src="" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            </div>
+
+            <div id="ad-link-box" class="ad-link-preview" style="display: none;">
+                <div><strong>តំណភ្ជាប់ពាណិជ្ជកម្ម (Link Ads):</strong></div>
+                <div id="ad-link-url"></div>
+                <button type="button" class="aba-btn" style="padding: 8px 12px; font-size: 13px; margin-top: 8px;" onclick="openCustomAdLink()">
+                    បើកមើល Link ពាណិជ្ជកម្ម
+                </button>
+            </div>
+
+            <div id="ad-countdown-text" style="font-size: 14px; font-weight: bold; color: #d97706; margin-bottom: 10px;">
+                សូមរង់ចាំ ៥ វិនាទី...
+            </div>
+
+            <button id="claim-ad-btn" class="aba-btn success-btn" disabled onclick="completeAdReward()">កំពុងរាប់ពេល...</button>
+            <button type="button" class="aba-btn danger-btn" onclick="cancelAd()">បិទពាណិជ្ជកម្ម</button>
         </div>
     </div>
 
@@ -213,9 +294,9 @@
             <div class="aba-header">
                 <span class="aba-title">មើលពាណិជ្ជកម្មយករង្វាន់</span>
             </div>
-            <p style="font-size: 13px; color: var(--text-sub); margin-top: 0;">មើលពាណិជ្ជកម្មចប់ ១ ដង ទទួលបាន $0.01 ចូលកាបូបលុយភ្លាមៗ</p>
+            <p style="font-size: 13px; color: var(--text-sub); margin-top: 0;">មើលពាណិជ្ជកម្ម ១ ដង ទទួលបាន $0.01 ចូលកាបូបលុយភ្លាមៗ</p>
             <button class="aba-btn" id="watch-ad-btn" onclick="watchAd()">មើលពាណិជ្ជកម្មឥឡូវនេះ</button>
-            <div class="status-msg" id="ad-status-msg" style="color: #d97706;"></div>
+            <div id="cooldown-timer" style="font-size: 12px; color: #d97706; text-align: center; margin-top: 6px; font-weight: 600;"></div>
         </div>
 
         <!-- Withdraw Section -->
@@ -243,17 +324,29 @@
             <div class="aba-header">
                 <span class="aba-title" style="color: #dc2626;">ផ្ទាំងគ្រប់គ្រង Admin</span>
             </div>
-            <p style="font-size: 12px; color: #1e293b;">ការគ្រប់គ្រងចំណូលប្រព័ន្ធ និងគណនី Admin (@SameanMom168)៖</p>
+            <p style="font-size: 12px; color: #1e293b;">ការគ្រប់គ្រងចំណូលប្រព័ន្ធ និង Link Ads សម្រាប់ @SameanMom168៖</p>
 
-            <div style="background: #e2e8f0; padding: 12px; border-radius: 10px; margin-bottom: 12px; text-align: center;">
-                <div style="font-size: 12px; color: var(--text-sub);">សមតុល្យចំណូលសរុបរបស់ Admin (ចំណែក ៥០% ស្វ័យប្រវត្តិ)</div>
-                <div id="admin-total-balance" style="font-size: 22px; font-weight: bold; color: var(--aba-blue); margin: 4px 0;">$0.000</div>
-                <div style="font-size: 11px; color: var(--text-sub);">ចំនួនដងមើលសរុបក្នុងប្រព័ន្ធ: <span id="admin-total-views">0</span> ដង</div>
+            <div style="background: #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center;">
+                <div style="font-size: 12px; color: var(--text-sub);">សមតុល្យចំណូលសរុបរបស់ Admin</div>
+                <div id="admin-total-balance" style="font-size: 20px; font-weight: bold; color: var(--aba-blue);">$0.000</div>
+                <div style="font-size: 11px; color: var(--text-sub); margin-top: 4px;">
+                    សរុបការមើលទាំងអស់ក្នុងប្រព័ន្ធ: <span id="admin-total-views">0</span> ដង
+                </div>
             </div>
 
             <div class="input-group">
-                <label>AdsGram Block ID (សម្រាប់បង្ហាញពាណិជ្ជកម្មពិតប្រាកដ)</label>
-                <input type="text" id="admin-adsgram-block-id" placeholder="ឧ. 1234 (ទុកទទេ បើចង់តេស្ត Demo Ad)">
+                <label>ដាក់ Link Ads ផ្ទាល់ខ្លួន (អាចកែប្រែបានគ្រប់ពេល - https://...)</label>
+                <input type="url" id="custom-ad-link" placeholder="ឧ. https://example.com/promo">
+            </div>
+
+            <div class="input-group">
+                <label>Cloudflare Worker API URL (ស្រេចចិត្ត - សម្រាប់ Sync ឆ្លងឧបករណ៍)</label>
+                <input type="url" id="worker-api-url" placeholder="ឧ. https://your-worker.workers.dev">
+            </div>
+
+            <div class="input-group">
+                <label>AdsGram Block ID (ស្រេចចិត្ត)</label>
+                <input type="text" id="adsgram-block-id" placeholder="ឧ. 1234">
             </div>
 
             <div class="input-group">
@@ -262,7 +355,7 @@
             </div>
 
             <button class="aba-btn" onclick="saveAdminSettings()">រក្សាទុកការកំណត់ Admin</button>
-            <div class="status-msg" style="color: var(--success);" id="admin-status-text"></div>
+            <div style="margin-top: 10px; font-size: 12px; font-weight: bold; color: var(--success);" id="admin-status-text"></div>
         </div>
 
         <!-- Activity Log -->
@@ -277,69 +370,139 @@
     </div>
 
     <script>
+        const ADMIN_USERNAME = "SameanMom168";
+        const TOTAL_AD_VALUE = 0.02;
+        const SPLIT_RATIO = 0.5; // 50% User / 50% Admin
+        const COOLDOWN_SEC = 3;
+        const AD_WATCH_DURATION_SEC = 5;
+
         // Telegram WebApp Initialization
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        const user = tg.initDataUnsafe?.user;
-        const username = user ? (user.first_name + (user.last_name ? " " + user.last_name : "")) : "អ្នកប្រើប្រាស់ Telegram";
-        const userHandle = user && user.username ? user.username : "SameanMom168";
-        const userId = user ? String(user.id) : "telegram_user_default";
+        const tgUser = tg.initDataUnsafe?.user || null;
+        const displayName = tgUser
+            ? (tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : ""))
+            : "គណនីសាកល្បង";
+        const userHandle = tgUser && tgUser.username ? tgUser.username : "";
+        const userId = tgUser && tgUser.id ? String(tgUser.id) : "local_test_user";
 
-        // Display Profile Name
-        document.getElementById("user-profile-name").innerText = `${username} (@${userHandle})`;
+        document.getElementById("user-profile-name").innerText = userHandle
+            ? `${displayName} (@${userHandle})`
+            : `${displayName} (ID: ${userId})`;
 
-        // Check if user is Admin (@SameanMom168)
-        const ADMIN_USERNAME = "SameanMom168";
         const isAdmin = userHandle.toLowerCase() === ADMIN_USERNAME.toLowerCase();
         if (isAdmin) {
             document.getElementById("admin-badge").style.display = "block";
             document.getElementById("admin-panel").style.display = "block";
         }
 
-        // Shared System / Admin State (រក្សាទុកចំណូល Admin និងចំនួនមើលសរុប)
-        const ADMIN_STORAGE_KEY = "khmer_rewards_admin_ledger_v1";
-        let globalAdminState = JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY)) || {
+        let globalAdminState = JSON.parse(localStorage.getItem("system_admin_state")) || {
             adminBalance: 0.000,
-            totalViews: 0,
+            totalSystemViews: 0,
             adminBank: "000 000 000 (Admin Default)",
-            adsgramBlockId: ""
+            adsgramBlockId: "",
+            customAdLink: "",
+            workerApiUrl: ""
         };
 
-        // Per-User State Management
-        const USER_STORAGE_KEY = `khmer_rewards_user_v1_${userId}`;
-        let state = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {
+        let state = JSON.parse(localStorage.getItem(`user_state_${userId}`)) || {
             balance: 0.000,
             views: 0,
             lastWatchTime: 0
         };
 
-        document.getElementById("admin-bank-account").value = globalAdminState.adminBank;
-        document.getElementById("admin-adsgram-block-id").value = globalAdminState.adsgramBlockId || "";
+        document.getElementById("admin-bank-account").value = globalAdminState.adminBank || "";
+        document.getElementById("adsgram-block-id").value = globalAdminState.adsgramBlockId || "";
+        document.getElementById("custom-ad-link").value = globalAdminState.customAdLink || "";
+        document.getElementById("worker-api-url").value = globalAdminState.workerApiUrl || "";
 
-        // Listen for cross-tab storage updates so Admin sees real-time changes immediately
-        window.addEventListener("storage", (event) => {
-            if (event.key === ADMIN_STORAGE_KEY && event.newValue) {
-                globalAdminState = JSON.parse(event.newValue);
-                renderAdminStats();
-            }
-        });
+        let adCountdownInterval = null;
 
-        function renderAdminStats() {
-            document.getElementById("admin-total-balance").innerText = `$${Number(globalAdminState.adminBalance).toFixed(3)}`;
-            document.getElementById("admin-total-views").innerText = globalAdminState.totalViews || 0;
+        function persistStates() {
+            localStorage.setItem(`user_state_${userId}`, JSON.stringify(state));
+            localStorage.setItem("system_admin_state", JSON.stringify(globalAdminState));
         }
 
         function updateUI() {
-            document.getElementById("user-balance").innerText = `$${Number(state.balance).toFixed(3)}`;
+            document.getElementById("user-balance").innerText = `$${state.balance.toFixed(3)}`;
             document.getElementById("view-count").innerText = state.views;
-            renderAdminStats();
-
-            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(state));
-            localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(globalAdminState));
+            document.getElementById("admin-total-balance").innerText = `$${globalAdminState.adminBalance.toFixed(3)}`;
+            document.getElementById("admin-total-views").innerText = globalAdminState.totalSystemViews;
+            persistStates();
         }
 
-        updateUI();
+        function isValidHttpUrl(str) {
+            try {
+                const u = new URL(str);
+                return u.protocol === "http:" || u.protocol === "https:";
+            } catch (_) {
+                return false;
+            }
+        }
+
+        async function fetchCloudStateIfConfigured() {
+            const apiUrl = (globalAdminState.workerApiUrl || "").trim();
+            if (!apiUrl || !isValidHttpUrl(apiUrl)) return;
+            try {
+                const res = await fetch(`${apiUrl.replace(/\/+$/, "")}/state?userId=${encodeURIComponent(userId)}`);
+                if (!res.ok) return;
+                const data = await res.json();
+                if (typeof data.adminBalance === "number") {
+                    globalAdminState.adminBalance = data.adminBalance;
+                }
+                if (typeof data.totalSystemViews === "number") {
+                    globalAdminState.totalSystemViews = data.totalSystemViews;
+                }
+                if (typeof data.customAdLink === "string") {
+                    globalAdminState.customAdLink = data.customAdLink;
+                    if (isAdmin) {
+                        document.getElementById("custom-ad-link").value = data.customAdLink;
+                    }
+                }
+                if (typeof data.userBalance === "number") {
+                    state.balance = data.userBalance;
+                }
+                if (typeof data.userViews === "number") {
+                    state.views = data.userViews;
+                }
+                updateUI();
+            } catch (_) {}
+        }
+
+        async function syncRevenueToAdmin(userShare, adminShare) {
+            globalAdminState.adminBalance = Number((globalAdminState.adminBalance + adminShare).toFixed(6));
+            globalAdminState.totalSystemViews += 1;
+            persistStates();
+
+            const apiUrl = (globalAdminState.workerApiUrl || "").trim();
+            if (apiUrl && isValidHttpUrl(apiUrl)) {
+                try {
+                    const res = await fetch(`${apiUrl.replace(/\/+$/, "")}/reward`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            userId,
+                            userHandle,
+                            userShare,
+                            adminShare,
+                            userBalance: state.balance,
+                            userViews: state.views
+                        })
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (typeof data.adminBalance === "number") {
+                            globalAdminState.adminBalance = data.adminBalance;
+                        }
+                        if (typeof data.totalSystemViews === "number") {
+                            globalAdminState.totalSystemViews = data.totalSystemViews;
+                        }
+                        persistStates();
+                    }
+                } catch (_) {}
+            }
+        }
 
         function closeOnboarding() {
             document.getElementById("onboarding-screen").style.display = "none";
@@ -361,131 +524,196 @@
             }
         }
 
-        // Anti-Cheat: Cooldown 5 seconds between ad views
-        const COOLDOWN_SEC = 5;
+        function openCustomAdLink() {
+            const link = (globalAdminState.customAdLink || "").trim();
+            if (!isValidHttpUrl(link)) return;
+            if (tg && typeof tg.openLink === "function") {
+                tg.openLink(link);
+            } else {
+                window.open(link, "_blank", "noopener,noreferrer");
+            }
+        }
 
-        // ពិតប្រាកដ៖ បង្ហាញពាណិជ្ជកម្មតាម AdsGram SDK ប្រសិនបើមាន Block ID
-        async function triggerRealOrDemoAd() {
-            const blockId = (globalAdminState.adsgramBlockId || "").trim();
+        function openAdModal() {
+            let remaining = AD_WATCH_DURATION_SEC;
+            const modal = document.getElementById("ad-modal");
+            const countdownEl = document.getElementById("ad-countdown-text");
+            const claimBtn = document.getElementById("claim-ad-btn");
+            const linkBox = document.getElementById("ad-link-box");
+            const linkUrlEl = document.getElementById("ad-link-url");
+            const frameWrap = document.getElementById("ad-frame-wrap");
+            const iframeEl = document.getElementById("ad-iframe");
+            const headlineEl = document.getElementById("ad-headline");
+            const subtextEl = document.getElementById("ad-subtext");
 
-            if (blockId && window.Adsgram && typeof window.Adsgram.init === "function") {
-                const AdController = window.Adsgram.init({ blockId: blockId });
-                // show() resolves when user completes watching the ad, and rejects if closed early or no ad available
-                await AdController.show();
-                return { completed: true, source: "AdsGram" };
+            const customLink = (globalAdminState.customAdLink || "").trim();
+            if (isValidHttpUrl(customLink)) {
+                headlineEl.innerText = "ពាណិជ្ជកម្មពី Admin (Link Ad)";
+                subtextEl.innerText = "ចុចបើកមើល Link ពាណិជ្ជកម្មខាងក្រោម ហើយរង់ចាំរាប់ថយក្រោយចប់ ដើម្បីទទួលរង្វាន់។";
+                linkBox.style.display = "block";
+                linkUrlEl.innerText = customLink;
+                frameWrap.style.display = "block";
+                iframeEl.src = customLink;
+            } else {
+                headlineEl.innerText = "ពាណិជ្ជកម្មពិសេស Khmer Rewards";
+                subtextEl.innerText = "រង់ចាំការរាប់ថយក្រោយបញ្ចប់ ដើម្បីទទួលបានកម្រៃ ៥០% និងបញ្ជូនចំណែកទៅ Admin ភ្លាមៗ។";
+                linkBox.style.display = "none";
+                linkUrlEl.innerText = "";
+                frameWrap.style.display = "none";
+                iframeEl.src = "";
             }
 
-            // ប្រសិនបើមិនទាន់បានបញ្ចូល Block ID ពិតប្រាកដ ក្នុងផ្ទាំង Admin
-            // បង្ហាញផ្ទាំងបញ្ជាក់មើលពាណិជ្ជកម្ម (សាកល្បង) ជំនួសការបូកលុយទទេៗដោយគ្មានការបង្ហាញ
-            const confirmed = confirm("មិនទាន់បានកំណត់ AdsGram Block ID នៅឡើយទេ។ សូមចុច OK ដើម្បីមើលពាណិជ្ជកម្មគំរូ (Demo Ad) រយៈពេល ៣ វិនាទី។");
-            if (!confirmed) {
-                return { completed: false, reason: "អ្នកប្រើប្រាស់បានបោះបង់ការមើលពាណិជ្ជកម្ម។" };
-            }
+            claimBtn.disabled = true;
+            claimBtn.innerText = `រង់ចាំ ${remaining} វិនាទី...`;
+            countdownEl.innerText = `សូមរង់ចាំ ${remaining} វិនាទី ដើម្បីទទួលរង្វាន់...`;
+            modal.style.display = "flex";
 
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-            return { completed: true, source: "Demo Ad" };
+            clearInterval(adCountdownInterval);
+            adCountdownInterval = setInterval(() => {
+                remaining -= 1;
+                if (remaining > 0) {
+                    claimBtn.innerText = `រង់ចាំ ${remaining} វិនាទី...`;
+                    countdownEl.innerText = `សូមរង់ចាំ ${remaining} វិនាទី ដើម្បីទទួលរង្វាន់...`;
+                } else {
+                    clearInterval(adCountdownInterval);
+                    countdownEl.innerText = "បានបញ្ចប់ការមើលពាណិជ្ជកម្ម! ចុចយករង្វាន់ឥឡូវនេះ។";
+                    claimBtn.disabled = false;
+                    claimBtn.innerText = "ទទួលរង្វាន់ឥឡូវនេះ";
+                }
+            }, 1000);
+        }
+
+        function cancelAd() {
+            clearInterval(adCountdownInterval);
+            document.getElementById("ad-iframe").src = "";
+            document.getElementById("ad-modal").style.display = "none";
+            document.getElementById("watch-ad-btn").disabled = false;
+            document.getElementById("watch-ad-btn").innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
+            addLog("បានបិទពាណិជ្ជកម្មមុនពេលបញ្ចប់ (មិនទទួលបានទឹកប្រាក់)។");
+        }
+
+        async function completeAdReward() {
+            clearInterval(adCountdownInterval);
+            document.getElementById("ad-iframe").src = "";
+            document.getElementById("ad-modal").style.display = "none";
+
+            const userShare = Number((TOTAL_AD_VALUE * SPLIT_RATIO).toFixed(6));
+            const adminShare = Number((TOTAL_AD_VALUE * (1 - SPLIT_RATIO)).toFixed(6));
+
+            state.balance = Number((state.balance + userShare).toFixed(6));
+            state.views += 1;
+            state.lastWatchTime = Date.now();
+
+            await syncRevenueToAdmin(userShare, adminShare);
+            updateUI();
+
+            addLog(`បានមើលពាណិជ្ជកម្មជោគជ័យ (+$${userShare.toFixed(3)}) និង Update ទៅ Admin រួចរាល់។`);
+
+            const btn = document.getElementById("watch-ad-btn");
+            btn.disabled = false;
+            btn.innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
         }
 
         async function watchAd() {
             const now = Date.now();
-            const elapsed = (now - (state.lastWatchTime || 0)) / 1000;
-            const statusEl = document.getElementById("ad-status-msg");
-            const btn = document.getElementById("watch-ad-btn");
+            const elapsed = (now - state.lastWatchTime) / 1000;
 
-            if (elapsed < COOLDOWN_SEC) {
-                const waitSec = Math.ceil(COOLDOWN_SEC - elapsed);
-                statusEl.style.color = "#d97706";
-                statusEl.innerText = `សូមរង់ចាំ ${waitSec} វិនាទីទៀត មុនពេលមើលពាណិជ្ជកម្មបន្ទាប់។`;
+            if (state.lastWatchTime > 0 && elapsed < COOLDOWN_SEC) {
+                alert(`សូមរង់ចាំ ${Math.ceil(COOLDOWN_SEC - elapsed)} វិនាទីទៀត មុនមើលពាណិជ្ជកម្មបន្ទាប់។`);
                 return;
             }
 
+            const btn = document.getElementById("watch-ad-btn");
             btn.disabled = true;
             btn.innerText = "កំពុងបើកពាណិជ្ជកម្ម...";
-            statusEl.style.color = "#0055a5";
-            statusEl.innerText = "សូមមើលពាណិជ្ជកម្មឱ្យចប់ ដើម្បីទទួលបានកម្រៃ ៥០%...";
 
-            try {
-                const result = await triggerRealOrDemoAd();
-
-                if (!result || !result.completed) {
-                    statusEl.style.color = "#dc2626";
-                    statusEl.innerText = result?.reason || "ការមើលពាណិជ្ជកម្មមិនទាន់គ្រប់លក្ខខណ្ឌ មិនបានទទួលប្រាក់ទេ។";
+            const blockId = (globalAdminState.adsgramBlockId || "").trim();
+            if (blockId && window.Adsgram) {
+                try {
+                    const AdController = window.Adsgram.init({ blockId });
+                    await AdController.show();
+                    await completeAdReward();
                     return;
-                }
-
-                // បែងចែកចំណូល ៥០% / ៥០% បន្ទាប់ពីមើលពាណិជ្ជកម្មចប់ជោគជ័យ
-                const totalAdValue = 0.02;
-                const userShare = totalAdValue * 0.5;  // $0.010 សម្រាប់អ្នកមើល
-                const adminShare = totalAdValue * 0.5; // $0.010 ចូលគណនី Admin ភ្លាមៗ
-
-                state.balance = Number(state.balance) + userShare;
-                state.views = Number(state.views) + 1;
-                state.lastWatchTime = Date.now();
-
-                globalAdminState.adminBalance = Number(globalAdminState.adminBalance) + adminShare;
-                globalAdminState.totalViews = Number(globalAdminState.totalViews || 0) + 1;
-
-                updateUI();
-
-                statusEl.style.color = "#059669";
-                statusEl.innerText = `ជោគជ័យ! អ្នកទទួលបាន +$${userShare.toFixed(3)} និង Admin បានទទួល +$${adminShare.toFixed(3)} ភ្លាមៗ។`;
-                addLog(`@${userHandle} មើល (${result.source}) បាន +$${userShare.toFixed(3)} | Admin +$${adminShare.toFixed(3)}`);
-
-            } catch (err) {
-                statusEl.style.color = "#dc2626";
-                statusEl.innerText = "គ្មានពាណិជ្ជកម្មសម្រាប់បង្ហាញនៅពេលនេះ ឬបានបិទមុនពេលចប់។";
-                addLog(`បរាជ័យក្នុងការបង្ហាញពាណិជ្ជកម្មសម្រាប់ @${userHandle}`);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
+                } catch (_) {}
             }
+
+            openAdModal();
         }
 
         function requestWithdraw() {
             const method = document.getElementById("withdraw-method").value;
             const info = document.getElementById("account-info").value.trim();
 
-            if (Number(state.balance) < 1.00) {
-                alert("សមតុល្យរបស់អ្នកមិនទាន់គ្រប់ ១.០០ ដុល្លារទេ (អប្បបរមា $1.00)!");
+            if (state.balance < 1.00) {
+                alert("សមតុល្យរបស់អ្នកមិនទាន់គ្រប់ ១.០០ ដុល្លារទេ (អប្បបរមា $1.00)។");
                 return;
             }
 
             if (!info) {
-                alert("សូមបញ្ចូលព័ត៌មានគណនីរបស់អ្នកឱ្យបានត្រឹមត្រូវ!");
+                alert("សូមបញ្ចូលព័ត៌មានគណនីរបស់អ្នកឱ្យបានត្រឹមត្រូវ។");
                 return;
             }
 
-            const withdrawAmount = Number(state.balance).toFixed(3);
-            alert(`ស្នើសុំដកប្រាក់ចំនួន $${withdrawAmount} ជោគជ័យ! ប្រព័ន្ធបានផ្ញើទៅកាន់ ${method.toUpperCase()} (${info}) រួចរាល់។`);
+            const withdrawnAmount = state.balance;
+            alert(`ស្នើសុំដកប្រាក់ចំនួន $${withdrawnAmount.toFixed(3)} ជោគជ័យ! ប្រព័ន្ធបានផ្ញើទៅកាន់ ${method.toUpperCase()} (${info}) ដោយស្វ័យប្រវត្តិ។`);
 
-            addLog(`@${userHandle} ដកប្រាក់ $${withdrawAmount} ទៅកាន់ ${method.toUpperCase()} (${info})`);
+            addLog(`ដកប្រាក់ $${withdrawnAmount.toFixed(3)} ទៅកាន់ ${method.toUpperCase()} (${info})`);
 
             state.balance = 0.000;
             updateUI();
         }
 
-        function saveAdminSettings() {
+        async function saveAdminSettings() {
             if (!isAdmin) {
-                alert("មានតែ Admin (@SameanMom168) ប៉ុណ្ណោះដែលអាចកែប្រែការកំណត់នេះបាន!");
+                alert("មុខងារនេះសម្រាប់តែ @SameanMom168 ប៉ុណ្ណោះ។");
                 return;
             }
 
             const bankVal = document.getElementById("admin-bank-account").value.trim();
-            const blockIdVal = document.getElementById("admin-adsgram-block-id").value.trim();
+            const blockVal = document.getElementById("adsgram-block-id").value.trim();
+            const customLinkVal = document.getElementById("custom-ad-link").value.trim();
+            const workerUrlVal = document.getElementById("worker-api-url").value.trim();
 
             if (!bankVal) {
-                alert("សូមបញ្ចូលលេខគណនីធនាគារ!");
+                alert("សូមបញ្ចូលលេខគណនីធនាគារ។");
+                return;
+            }
+
+            if (customLinkVal && !isValidHttpUrl(customLinkVal)) {
+                alert("Link Ads ត្រូវចាប់ផ្តើមដោយ https:// ឬ http://");
+                return;
+            }
+
+            if (workerUrlVal && !isValidHttpUrl(workerUrlVal)) {
+                alert("Cloudflare Worker URL ត្រូវចាប់ផ្តើមដោយ https:// ឬ http://");
                 return;
             }
 
             globalAdminState.adminBank = bankVal;
-            globalAdminState.adsgramBlockId = blockIdVal;
-            updateUI();
+            globalAdminState.adsgramBlockId = blockVal;
+            globalAdminState.customAdLink = customLinkVal;
+            globalAdminState.workerApiUrl = workerUrlVal;
+            persistStates();
 
-            const statusEl = document.getElementById("admin-status-text");
-            statusEl.innerText = "បានរក្សាទុកការកំណត់ Admin និង AdsGram Block ID រួចរាល់!";
-            setTimeout(() => { statusEl.innerText = ""; }, 3000);
-            addLog("Admin បានរក្សាទុកការកំណត់គណនី និង AdsGram Block ID។");
+            if (workerUrlVal) {
+                try {
+                    await fetch(`${workerUrlVal.replace(/\/+$/, "")}/settings`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            adminUsername: ADMIN_USERNAME,
+                            customAdLink: customLinkVal,
+                            adminBank: bankVal
+                        })
+                    });
+                } catch (_) {}
+            }
+
+            document.getElementById("admin-status-text").innerText = "បានរក្សាទុកការកំណត់ Admin និង Link Ads ដោយជោគជ័យ!";
+            setTimeout(() => {
+                document.getElementById("admin-status-text").innerText = "";
+            }, 3000);
+            addLog("Admin បានរក្សាទុក Link Ads និងការកំណត់ប្រព័ន្ធ។");
         }
 
         function addLog(text) {
@@ -493,6 +721,19 @@
             const timeStr = new Date().toLocaleTimeString();
             logList.innerHTML = `<div>[${timeStr}] ${text}</div>` + logList.innerHTML;
         }
+
+        window.addEventListener("storage", (event) => {
+            if (event.key === "system_admin_state" && event.newValue) {
+                globalAdminState = JSON.parse(event.newValue);
+                if (isAdmin) {
+                    document.getElementById("custom-ad-link").value = globalAdminState.customAdLink || "";
+                }
+                updateUI();
+            }
+        });
+
+        updateUI();
+        fetchCloudStateIfConfigured();
     </script>
 </body>
 </html>
