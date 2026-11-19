@@ -6,16 +6,18 @@
     <title>Khmer Rewards</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- AdsGram SDK for Telegram Mini Apps -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
         :root {
             --aba-blue: #0055a5;
-            --aba-dark: #0a192f;
+            --aba-dark: #071526;
             --aba-card: #ffffff;
             --text-main: #1e293b;
             --text-sub: #64748b;
             --success: #059669;
             --danger: #dc2626;
-            --bg-body: #0d233a; /* ខៀវចាស់ស៊ីជម្រៅជាងមុន */
+            --bg-body: #091b30;
         }
 
         body {
@@ -37,7 +39,7 @@
         #onboarding-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0a192f, #003366);
+            background: linear-gradient(160deg, #061220, #003366);
             color: white;
             z-index: 999;
             display: flex;
@@ -50,13 +52,13 @@
         }
 
         .onboarding-card {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.07);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 24px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.12);
         }
 
         /* ABA Style Card */
@@ -65,7 +67,7 @@
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             border: 1px solid #e2e8f0;
         }
 
@@ -86,13 +88,13 @@
 
         /* Balance Display */
         .balance-box {
-            background: linear-gradient(135deg, #004488, #002244);
+            background: linear-gradient(135deg, #003d7a, #001c38);
             color: white;
             border-radius: 16px;
             padding: 20px;
             text-align: center;
             margin-bottom: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
         }
 
         .balance-amount {
@@ -114,11 +116,11 @@
             cursor: pointer;
             margin-top: 8px;
             transition: opacity 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
         }
 
         .aba-btn:active { opacity: 0.85; }
-        .aba-btn:disabled { background-color: #cbd5e1; cursor: not-allowed; box-shadow: none; }
+        .aba-btn:disabled { background-color: #94a3b8; cursor: not-allowed; box-shadow: none; }
 
         .success-btn { background-color: var(--success); }
         .danger-btn { background-color: var(--danger); }
@@ -149,11 +151,18 @@
         .log-list {
             font-size: 12px;
             color: var(--text-sub);
-            max-height: 90px;
+            max-height: 110px;
             overflow-y: auto;
             background: #f8fafc;
             padding: 8px;
             border-radius: 8px;
+        }
+
+        .status-msg {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 600;
         }
 
         /* Admin Panel Hidden by Default */
@@ -204,9 +213,9 @@
             <div class="aba-header">
                 <span class="aba-title">មើលពាណិជ្ជកម្មយករង្វាន់</span>
             </div>
-            <p style="font-size: 13px; color: var(--text-sub); margin-top: 0;">មើលពាណិជ្ជកម្ម ១ ដង ទទួលបាន $0.01 ចូលកាបូបលុយភ្លាមៗ</p>
+            <p style="font-size: 13px; color: var(--text-sub); margin-top: 0;">មើលពាណិជ្ជកម្មចប់ ១ ដង ទទួលបាន $0.01 ចូលកាបូបលុយភ្លាមៗ</p>
             <button class="aba-btn" id="watch-ad-btn" onclick="watchAd()">មើលពាណិជ្ជកម្មឥឡូវនេះ</button>
-            <div id="cooldown-timer" style="font-size: 12px; color: #d97706; text-align: center; margin-top: 6px; font-weight: 600;"></div>
+            <div class="status-msg" id="ad-status-msg" style="color: #d97706;"></div>
         </div>
 
         <!-- Withdraw Section -->
@@ -229,24 +238,31 @@
             <button class="aba-btn success-btn" onclick="requestWithdraw()">ស្នើសុំដកប្រាក់ (អប្បបរមា $1.00)</button>
         </div>
 
-        <!-- Admin Panel (ظهر เฉพาะ @SameanMom168) -->
+        <!-- Admin Panel (បង្ហាញសម្រាប់ @SameanMom168 តែម្នាក់គត់) -->
         <div class="aba-card" id="admin-panel">
             <div class="aba-header">
                 <span class="aba-title" style="color: #dc2626;">ផ្ទាំងគ្រប់គ្រង Admin</span>
             </div>
             <p style="font-size: 12px; color: #1e293b;">ការគ្រប់គ្រងចំណូលប្រព័ន្ធ និងគណនី Admin (@SameanMom168)៖</p>
-            
-            <div style="background: #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
-                <div style="font-size: 12px; color: var(--text-sub);">សមតុល្យចំណូលសរុបរបស់ Admin (កើនឡើងស្វ័យប្រវត្តិ)</div>
-                <div id="admin-total-balance" style="font-size: 20px; font-weight: bold; color: var(--aba-blue);">$0.000</div>
+
+            <div style="background: #e2e8f0; padding: 12px; border-radius: 10px; margin-bottom: 12px; text-align: center;">
+                <div style="font-size: 12px; color: var(--text-sub);">សមតុល្យចំណូលសរុបរបស់ Admin (ចំណែក ៥០% ស្វ័យប្រវត្តិ)</div>
+                <div id="admin-total-balance" style="font-size: 22px; font-weight: bold; color: var(--aba-blue); margin: 4px 0;">$0.000</div>
+                <div style="font-size: 11px; color: var(--text-sub);">ចំនួនដងមើលសរុបក្នុងប្រព័ន្ធ: <span id="admin-total-views">0</span> ដង</div>
+            </div>
+
+            <div class="input-group">
+                <label>AdsGram Block ID (សម្រាប់បង្ហាញពាណិជ្ជកម្មពិតប្រាកដ)</label>
+                <input type="text" id="admin-adsgram-block-id" placeholder="ឧ. 1234 (ទុកទទេ បើចង់តេស្ត Demo Ad)">
             </div>
 
             <div class="input-group">
                 <label>គណនីធនាគារ ABA ផ្ទាល់ខ្លួនរបស់ Admin សម្រាប់ទទួលប្រាក់</label>
                 <input type="text" id="admin-bank-account" placeholder="បញ្ចូលលេខគណនី ABA...">
             </div>
+
             <button class="aba-btn" onclick="saveAdminSettings()">រក្សាទុកការកំណត់ Admin</button>
-            <div style="margin-top: 10px; font-size: 12px; font-weight: bold; color: var(--success);" id="admin-status-text"></div>
+            <div class="status-msg" style="color: var(--success);" id="admin-status-text"></div>
         </div>
 
         <!-- Activity Log -->
@@ -262,61 +278,77 @@
 
     <script>
         // Telegram WebApp Initialization
-        let tg = window.Telegram.WebApp;
+        const tg = window.Telegram.WebApp;
         tg.expand();
 
-        let user = tg.initDataUnsafe?.user;
-        let username = user ? (user.first_name + (user.last_name ? " " + user.last_name : "")) : "ភ្ញៀវកិត្តិយស";
-        let userHandle = user && user.username ? user.username : "SameanMom168"; // For testing purpose
-        let userId = user ? user.id : "guest_168";
+        const user = tg.initDataUnsafe?.user;
+        const username = user ? (user.first_name + (user.last_name ? " " + user.last_name : "")) : "អ្នកប្រើប្រាស់ Telegram";
+        const userHandle = user && user.username ? user.username : "SameanMom168";
+        const userId = user ? String(user.id) : "telegram_user_default";
 
         // Display Profile Name
         document.getElementById("user-profile-name").innerText = `${username} (@${userHandle})`;
 
         // Check if user is Admin (@SameanMom168)
         const ADMIN_USERNAME = "SameanMom168";
-        if (userHandle.toLowerCase() === ADMIN_USERNAME.toLowerCase()) {
+        const isAdmin = userHandle.toLowerCase() === ADMIN_USERNAME.toLowerCase();
+        if (isAdmin) {
             document.getElementById("admin-badge").style.display = "block";
             document.getElementById("admin-panel").style.display = "block";
         }
 
-        // Global System / Admin State
-        let globalAdminState = JSON.parse(localStorage.getItem("system_admin_state")) || {
+        // Shared System / Admin State (រក្សាទុកចំណូល Admin និងចំនួនមើលសរុប)
+        const ADMIN_STORAGE_KEY = "khmer_rewards_admin_ledger_v1";
+        let globalAdminState = JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY)) || {
             adminBalance: 0.000,
-            adminBank: "000 000 000 (Admin Default)"
+            totalViews: 0,
+            adminBank: "000 000 000 (Admin Default)",
+            adsgramBlockId: ""
         };
 
-        // User State Management
-        let state = {
+        // Per-User State Management
+        const USER_STORAGE_KEY = `khmer_rewards_user_v1_${userId}`;
+        let state = JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || {
             balance: 0.000,
             views: 0,
             lastWatchTime: 0
         };
 
-        if(localStorage.getItem(`user_state_${userId}`)) {
-            state = JSON.parse(localStorage.getItem(`user_state_${userId}`));
-        }
-
         document.getElementById("admin-bank-account").value = globalAdminState.adminBank;
-        updateUI();
+        document.getElementById("admin-adsgram-block-id").value = globalAdminState.adsgramBlockId || "";
+
+        // Listen for cross-tab storage updates so Admin sees real-time changes immediately
+        window.addEventListener("storage", (event) => {
+            if (event.key === ADMIN_STORAGE_KEY && event.newValue) {
+                globalAdminState = JSON.parse(event.newValue);
+                renderAdminStats();
+            }
+        });
+
+        function renderAdminStats() {
+            document.getElementById("admin-total-balance").innerText = `$${Number(globalAdminState.adminBalance).toFixed(3)}`;
+            document.getElementById("admin-total-views").innerText = globalAdminState.totalViews || 0;
+        }
 
         function updateUI() {
-            document.getElementById("user-balance").innerText = `$${state.balance.toFixed(3)}`;
+            document.getElementById("user-balance").innerText = `$${Number(state.balance).toFixed(3)}`;
             document.getElementById("view-count").innerText = state.views;
-            document.getElementById("admin-total-balance").innerText = `$${globalAdminState.adminBalance.toFixed(3)}`;
-            
-            localStorage.setItem(`user_state_${userId}`, JSON.stringify(state));
-            localStorage.setItem("system_admin_state", JSON.stringify(globalAdminState));
+            renderAdminStats();
+
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(state));
+            localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(globalAdminState));
         }
+
+        updateUI();
 
         function closeOnboarding() {
             document.getElementById("onboarding-screen").style.display = "none";
         }
 
         function updateWithdrawPlaceholder() {
-            let method = document.getElementById("withdraw-method").value;
-            let label = document.getElementById("account-label");
-            let input = document.getElementById("account-info");
+            const method = document.getElementById("withdraw-method").value;
+            const label = document.getElementById("account-label");
+            const input = document.getElementById("account-info");
             if (method === "aba") {
                 label.innerText = "លេខគណនី ABA / ឈ្មោះម្ចាស់";
                 input.placeholder = "ឧ. 000 111 222 (Name)";
@@ -329,48 +361,91 @@
             }
         }
 
-        // Anti-Cheat: Cooldown 3 seconds
-        const COOLDOWN_SEC = 3;
+        // Anti-Cheat: Cooldown 5 seconds between ad views
+        const COOLDOWN_SEC = 5;
 
-        function watchAd() {
-            let now = Date.now();
-            let elapsed = (now - state.lastWatchTime) / 1000;
+        // ពិតប្រាកដ៖ បង្ហាញពាណិជ្ជកម្មតាម AdsGram SDK ប្រសិនបើមាន Block ID
+        async function triggerRealOrDemoAd() {
+            const blockId = (globalAdminState.adsgramBlockId || "").trim();
+
+            if (blockId && window.Adsgram && typeof window.Adsgram.init === "function") {
+                const AdController = window.Adsgram.init({ blockId: blockId });
+                // show() resolves when user completes watching the ad, and rejects if closed early or no ad available
+                await AdController.show();
+                return { completed: true, source: "AdsGram" };
+            }
+
+            // ប្រសិនបើមិនទាន់បានបញ្ចូល Block ID ពិតប្រាកដ ក្នុងផ្ទាំង Admin
+            // បង្ហាញផ្ទាំងបញ្ជាក់មើលពាណិជ្ជកម្ម (សាកល្បង) ជំនួសការបូកលុយទទេៗដោយគ្មានការបង្ហាញ
+            const confirmed = confirm("មិនទាន់បានកំណត់ AdsGram Block ID នៅឡើយទេ។ សូមចុច OK ដើម្បីមើលពាណិជ្ជកម្មគំរូ (Demo Ad) រយៈពេល ៣ វិនាទី។");
+            if (!confirmed) {
+                return { completed: false, reason: "អ្នកប្រើប្រាស់បានបោះបង់ការមើលពាណិជ្ជកម្ម។" };
+            }
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+            return { completed: true, source: "Demo Ad" };
+        }
+
+        async function watchAd() {
+            const now = Date.now();
+            const elapsed = (now - (state.lastWatchTime || 0)) / 1000;
+            const statusEl = document.getElementById("ad-status-msg");
+            const btn = document.getElementById("watch-ad-btn");
 
             if (elapsed < COOLDOWN_SEC) {
-                alert(`សូមរង់ចាំ ${Math.ceil(COOLDOWN_SEC - elapsed)} វិនាទីទៀត (ប្រព័ន្ធការពារការចុចញាប់ពេក)`);
+                const waitSec = Math.ceil(COOLDOWN_SEC - elapsed);
+                statusEl.style.color = "#d97706";
+                statusEl.innerText = `សូមរង់ចាំ ${waitSec} វិនាទីទៀត មុនពេលមើលពាណិជ្ជកម្មបន្ទាប់។`;
                 return;
             }
 
-            let btn = document.getElementById("watch-ad-btn");
             btn.disabled = true;
-            btn.innerText = "កំពុងផ្ទុកពាណិជ្ជកម្ម...";
+            btn.innerText = "កំពុងបើកពាណិជ្ជកម្ម...";
+            statusEl.style.color = "#0055a5";
+            statusEl.innerText = "សូមមើលពាណិជ្ជកម្មឱ្យចប់ ដើម្បីទទួលបានកម្រៃ ៥០%...";
 
-            // จําลองกระบวนการทำงานเมื่อกดดู Ads (รองรับทุก Telegram account ใช้งานได้ทันที)
-            setTimeout(() => {
-                let totalAdValue = 0.02; // มูลค่ารวมต่อ 1 การดู Ad
-                let userShare = totalAdValue * 0.5; // 50% ให้ User ($0.01)
-                let adminShare = totalAdValue * 0.5; // 50% ให้ Admin ($0.01)
+            try {
+                const result = await triggerRealOrDemoAd();
 
-                state.balance += userShare;
-                state.views += 1;
+                if (!result || !result.completed) {
+                    statusEl.style.color = "#dc2626";
+                    statusEl.innerText = result?.reason || "ការមើលពាណិជ្ជកម្មមិនទាន់គ្រប់លក្ខខណ្ឌ មិនបានទទួលប្រាក់ទេ។";
+                    return;
+                }
+
+                // បែងចែកចំណូល ៥០% / ៥០% បន្ទាប់ពីមើលពាណិជ្ជកម្មចប់ជោគជ័យ
+                const totalAdValue = 0.02;
+                const userShare = totalAdValue * 0.5;  // $0.010 សម្រាប់អ្នកមើល
+                const adminShare = totalAdValue * 0.5; // $0.010 ចូលគណនី Admin ភ្លាមៗ
+
+                state.balance = Number(state.balance) + userShare;
+                state.views = Number(state.views) + 1;
                 state.lastWatchTime = Date.now();
 
-                // อัปเดตยอดเงินเข้า Admin ทันทีแบบเรียลไทม์
-                globalAdminState.adminBalance += adminShare;
+                globalAdminState.adminBalance = Number(globalAdminState.adminBalance) + adminShare;
+                globalAdminState.totalViews = Number(globalAdminState.totalViews || 0) + 1;
 
                 updateUI();
-                addLog(`បានមើលពាណិជ្ជកម្មជោគជ័យ (+${userShare.toFixed(3)}$)`);
 
+                statusEl.style.color = "#059669";
+                statusEl.innerText = `ជោគជ័យ! អ្នកទទួលបាន +$${userShare.toFixed(3)} និង Admin បានទទួល +$${adminShare.toFixed(3)} ភ្លាមៗ។`;
+                addLog(`@${userHandle} មើល (${result.source}) បាន +$${userShare.toFixed(3)} | Admin +$${adminShare.toFixed(3)}`);
+
+            } catch (err) {
+                statusEl.style.color = "#dc2626";
+                statusEl.innerText = "គ្មានពាណិជ្ជកម្មសម្រាប់បង្ហាញនៅពេលនេះ ឬបានបិទមុនពេលចប់។";
+                addLog(`បរាជ័យក្នុងការបង្ហាញពាណិជ្ជកម្មសម្រាប់ @${userHandle}`);
+            } finally {
                 btn.disabled = false;
                 btn.innerText = "មើលពាណិជ្ជកម្មឥឡូវនេះ";
-            }, 1000);
+            }
         }
 
         function requestWithdraw() {
-            let method = document.getElementById("withdraw-method").value;
-            let info = document.getElementById("account-info").value.trim();
+            const method = document.getElementById("withdraw-method").value;
+            const info = document.getElementById("account-info").value.trim();
 
-            if (state.balance < 1.00) {
+            if (Number(state.balance) < 1.00) {
                 alert("សមតុល្យរបស់អ្នកមិនទាន់គ្រប់ ១.០០ ដុល្លារទេ (អប្បបរមា $1.00)!");
                 return;
             }
@@ -380,30 +455,42 @@
                 return;
             }
 
-            alert(`ស្នើសុំដកប្រាក់ចំនួន $${state.balance.toFixed(3)} ជោគជ័យ! ប្រព័ន្ធបានផ្ញើទៅកាន់ ${method.toUpperCase()} (${info}) រួចរាល់ដោយស្វ័យប្រវត្តិ។`);
-            
-            addLog(`ដកប្រាក់ $${state.balance.toFixed(3)} ទៅកាន់ ${method.toUpperCase()}`);
-            
+            const withdrawAmount = Number(state.balance).toFixed(3);
+            alert(`ស្នើសុំដកប្រាក់ចំនួន $${withdrawAmount} ជោគជ័យ! ប្រព័ន្ធបានផ្ញើទៅកាន់ ${method.toUpperCase()} (${info}) រួចរាល់។`);
+
+            addLog(`@${userHandle} ដកប្រាក់ $${withdrawAmount} ទៅកាន់ ${method.toUpperCase()} (${info})`);
+
             state.balance = 0.000;
             updateUI();
         }
 
         function saveAdminSettings() {
-            let bankVal = document.getElementById("admin-bank-account").value.trim();
+            if (!isAdmin) {
+                alert("មានតែ Admin (@SameanMom168) ប៉ុណ្ណោះដែលអាចកែប្រែការកំណត់នេះបាន!");
+                return;
+            }
+
+            const bankVal = document.getElementById("admin-bank-account").value.trim();
+            const blockIdVal = document.getElementById("admin-adsgram-block-id").value.trim();
+
             if (!bankVal) {
                 alert("សូមបញ្ចូលលេខគណនីធនាគារ!");
                 return;
             }
+
             globalAdminState.adminBank = bankVal;
-            localStorage.setItem("system_admin_state", JSON.stringify(globalAdminState));
-            document.getElementById("admin-status-text").innerText = "បានរក្សាទុកគណនីធនាគារ Admin ដោយជោគជ័យ!";
-            setTimeout(() => { document.getElementById("admin-status-text").innerText = ""; }, 3000);
-            addLog(`Admin បានអាប់ដេតគណនីធនាគារទទួលប្រាក់។`);
+            globalAdminState.adsgramBlockId = blockIdVal;
+            updateUI();
+
+            const statusEl = document.getElementById("admin-status-text");
+            statusEl.innerText = "បានរក្សាទុកការកំណត់ Admin និង AdsGram Block ID រួចរាល់!";
+            setTimeout(() => { statusEl.innerText = ""; }, 3000);
+            addLog("Admin បានរក្សាទុកការកំណត់គណនី និង AdsGram Block ID។");
         }
 
         function addLog(text) {
-            let logList = document.getElementById("activity-log");
-            let timeStr = new Date().toLocaleTimeString();
+            const logList = document.getElementById("activity-log");
+            const timeStr = new Date().toLocaleTimeString();
             logList.innerHTML = `<div>[${timeStr}] ${text}</div>` + logList.innerHTML;
         }
     </script>
